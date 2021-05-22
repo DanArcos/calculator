@@ -12,10 +12,10 @@ const multiply = ((a,b) => {return a*b});
 //divide function
 const divide = ((a,b) => {return a/b});
 
-console.log(add(-5,2));
-console.log(subtract(4,2));
-console.log(multiply(4,2));
-console.log(divide(4,2));
+//console.log(add(-5,2));
+//console.log(subtract(4,2));
+//console.log(multiply(4,2));
+//console.log(divide(4,2));
 
 function operate(operator,a,b){
     switch (operator){
@@ -31,24 +31,37 @@ function operate(operator,a,b){
         
 }
 
-const displayScreen = document.querySelector('#display');
-let displayValue = "";
+//Initialize display
+const displayScreen = document.querySelector('#display'); //Tie display to html
+let displayValue = "0"; //Initialize displayValue as 0
+displayScreen.textContent = displayValue;
 
+//Assign all number buttons
 const num_btns = document.querySelectorAll('.number')
+//Iterate through all number buttons
 num_btns.forEach(btn => {
     btn.addEventListener('click', (e)=>{
         //console.log("click")
         //console.log(btn.textContent)
+        console.log("Pre Logic: Display Value: "+displayValue)
 
-        if(btn.textContent==='0' && displayValue===""){
-            //Do nothing if the first button you press is zero
-            //console.log('first click')
+        //Do nothing if the first button you press is zero and zero is displayed
+        if(e.target.textContent.toString()==="0" && displayScreen.textContent==="0"){
+            //console.log('first click cannot be zero')
+            console.log("Post Logic Display Value: "+displayValue)
         }
         else{
             //console.log(displayValue)
+            if(displayValue === "0"){displayValue = ""} //If the leading value is 0, set
+
+            //Update display value variable with string concatenation
             displayValue = displayValue + e.target.textContent.toString()
+            
             //console.log(displayValue)
+            
+            //Update final display value
             displayScreen.textContent = displayValue;
+            console.log("Post Logic Display Value: "+displayValue)
         }
         
 
@@ -74,7 +87,9 @@ let operator = null
 const operator_btns = document.querySelectorAll('.operator')
 operator_btns.forEach(btn => {
     btn.addEventListener('click', (e) => {
+        //Store the operator value
         operator = btn.textContent;
+
         //If this is the first number, store it
         if (stored_val===null){
             if (displayValue ===''){
@@ -103,6 +118,10 @@ operator_btns.forEach(btn => {
     }) 
 })
 
+const equal_btn = document.querySelector("#equals")
+equal_btn.addEventListener('click', (e) => {
+
+})
 
 // Store is null
 //First number
