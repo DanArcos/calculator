@@ -1,5 +1,10 @@
 console.log('load');
 
+//Initialize values
+
+let stored_val = null; //stored value
+let operator = null //store the operator
+
 //add function
 const add = ((a,b) => {return a+b});
 
@@ -48,7 +53,7 @@ num_btns.forEach(btn => {
         //Do nothing if the first button you press is zero and zero is displayed
         if(e.target.textContent.toString()==="0" && displayScreen.textContent==="0"){
             //console.log('first click cannot be zero')
-            console.log("Post Logic Display Value: "+displayValue)
+            console.log("Selected Number: "+displayValue)
         }
         else{
             //console.log(displayValue)
@@ -61,71 +66,91 @@ num_btns.forEach(btn => {
             
             //Update final display value
             displayScreen.textContent = displayValue;
-            console.log("Post Logic Display Value: "+displayValue)
+            console.log("Selected Number: "+displayValue)
         }
-        
-
     })
 })
 
+//Link clear button to javascript and add event listener
 const clear_btn = document.querySelector('#clear');
-clear_btn.addEventListener('click', (e)=>{
-    displayValue = '';
-    displayScreen.textContent = '0';
+clear_btn.addEventListener('click', (e) => {
+    displayValue = '0';
+    displayScreen.textContent = displayValue;
     
     //reset stored value array to default null
     stored_val = null;
+
+    operator = null;
 })
 
-let stored_val = null;
-
 //What happens when we press an operator button?
-//Store the operator
-let operator = null
-//Store the value
-//Perform the operation
+
+//Link operator buttons
 const operator_btns = document.querySelectorAll('.operator')
+//Iterate through operator buttons.
 operator_btns.forEach(btn => {
     btn.addEventListener('click', (e) => {
-        //Store the operator value
-        operator = btn.textContent;
+        //If no button has been pressed
+        if(operator === null){
+            //Store Operator
+            operator = btn.textContent;
 
-        //If this is the first number, store it
-        if (stored_val===null){
-            if (displayValue ===''){
-                stored_val = 0
-                console.log("You stored a zero")
-                console.log(stored_val)
-            } else {
-                //Store the value
-                stored_val = displayValue
-                //Reset display to zero
-                displayValue =''
-                displayScreen.textContent = '0'
-                console.log("You stored a another number")
-                console.log(stored_val)
-            }
-        } 
-        
-        else {
-            //Perform operation
-            let comp = operate(operator, Number(stored_val), Number(displayValue));
-            displayScreen.textContent = comp
-            stored_val = null;
-            console.log("You did an operation")
-            console.log(comp)
+            //Store value of display valuie
+            stored_val = displayScreen.textContent
+
+            console.log("Operator: " + operator)
+            console.log("Stored Val: " + stored_val)
+
+            displayValue = ''
+
         }
-    }) 
+        else{
+            console.log('Old Operator: ' + operator)
+            console.log("Operating...")
+            stored_val = operate(operator, Number(stored_val), Number(displayScreen.textContent))
+            
+            console.log("Computed Value: " + stored_val)
+
+            
+
+            if (stored_val === Infinity){
+                displayScreen.textContent = "Nice Try"
+            }
+            else {
+                displayScreen.textContent = stored_val
+            }
+            console.log("New Stored Value:" + stored_val)
+
+            displayValue = ''
+            
+            operator = btn.textContent;
+            console.log('New Operator ' + operator)
+
+        }        
+    })
 })
 
 const equal_btn = document.querySelector("#equals")
-equal_btn.addEventListener('click', (e) => {
+equal_btn.addEventListener("click", (e) => {
+    if(operator === null){
+        //Do nothing
+        console.log('No Operator Selected')
+    }
+    else{
+        console.log('Equals: There is an operator')
+        let new_val = operate(operator, Number(stored_val), Number(displayScreen.textContent))
+        //update screen for new_val
+        if (new_val === Infinity){
+            displayScreen.textContent = "Nice Try"
+        }
+        else{
+            console.log(new_val)
+            displayValue = new_val
+            displayScreen.textContent = new_val
 
+            displayValue = ''
+
+            operator = null
+        }  
+    }
 })
-
-// Store is null
-//First number
-// Operator
-//If store null? If so store first number
-// If not perform operation and store result
-// Update result
