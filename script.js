@@ -117,6 +117,7 @@ operator_btns.forEach(btn => {
                 displayScreen.textContent = "Nice Try"
             }
             else {
+                //Update screen for the new stored value
                 displayScreen.textContent = stored_val
             }
             console.log("New Stored Value:" + stored_val)
@@ -126,7 +127,8 @@ operator_btns.forEach(btn => {
             operator = btn.textContent;
             console.log('New Operator ' + operator)
 
-        }        
+        }
+        btn.classList.add("selected")       
     })
 })
 
